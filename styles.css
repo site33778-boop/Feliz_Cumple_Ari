@@ -41,24 +41,26 @@ body{
 
 /* CARTA */
 .letter{
-    position:absolute;
-    max-width:600px;
-    width:100%;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(.7);
+    max-width:90vw;
+    width:600px;
     background:black;
     color:white;
-    padding:35px 40px;
+    padding:35px 28px;
     border-radius:22px;
     text-align:center;
     display:flex;
     flex-direction:column;
-    transform:scale(.7);
     opacity:0;
     transition:.8s ease;
     box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
 
 .letter.show{
-    transform:scale(1);
+    transform:translate(-50%,-50%) scale(1);
     opacity:1;
 }
 
@@ -69,7 +71,7 @@ body{
     color:#ff4b5c;
     font-size:clamp(1.6rem,5vw,2rem);
     margin-bottom:15px;
-    height:3em;                 /* RESERVA ESPACIO */
+    height:3em;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -95,8 +97,10 @@ body{
 .message{
     font-family:'Great Vibes',cursive;
     font-size:clamp(1.6rem,5vw,2rem);
-    line-height:1.6;
+    line-height:1.7;
     margin-bottom:20px;
+    word-wrap:break-word;
+    overflow-wrap:break-word;
 }
 
 .message .word{
@@ -114,7 +118,9 @@ body{
 }
 
 /* BOTONES */
-.buttons{margin-top:auto;}
+.buttons{
+    margin-top:auto;
+}
 
 button{
     background:#ff4b5c;
@@ -130,22 +136,10 @@ button{
 button:hover{transform:scale(1.08);}
 #stopBtn{background:#555;}
 
-/* CONFETI */
 canvas{
     position:fixed;
     inset:0;
     pointer-events:none;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-    .letter{
-        padding:28px 24px;
-    }
-
-    .title{
-        height:3.5em;
-    }
 }
 
 /* ANIMACIONES */
