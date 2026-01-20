@@ -1,4 +1,3 @@
-/* ===== TITULO CAMBIANTE ===== */
 const title = document.getElementById("titleFade");
 const titles = ["🎉 Feliz Cumpleaños Ari 🎉", "❤️ Te Amo ❤️"];
 let current = 0;
@@ -22,7 +21,7 @@ function animateTitle() {
 
 animateTitle();
 
-/* ===== MENSAJE LETRA POR LETRA CON PAUSAS NATURALES ===== */
+/* ===== MENSAJE ===== */
 const message = document.getElementById("message");
 const text = message.getAttribute("data-text");
 message.innerHTML = "";
@@ -32,30 +31,28 @@ let delay = 0;
 text.split(" ").forEach(word => {
     const wordSpan = document.createElement("span");
     wordSpan.classList.add("word");
-    
-    // Crear span por letra dentro de la palabra
+
     [...word].forEach(char => {
         const letter = document.createElement("span");
         letter.textContent = char;
         wordSpan.appendChild(letter);
 
         setTimeout(() => letter.classList.add("show"), delay);
-        delay += 40; // velocidad por letra
+        delay += 40;
     });
 
     message.appendChild(wordSpan);
-    message.appendChild(document.createTextNode("\u00A0")); // espacio entre palabras
+    message.appendChild(document.createTextNode("\u00A0"));
 
-    // Pausa natural después de signos
     const lastChar = word[word.length - 1];
     if ([".", ",", "!", "?", "✨"].includes(lastChar)) {
-        delay += 400; // pausa extra
+        delay += 400;
     } else {
-        delay += 40;  // espacio normal
+        delay += 40;
     }
 });
 
-/* ===== CONFETI REDUCIDO ===== */
+/* ===== CONFETI ===== */
 const canvas = document.getElementById("confetti");
 const ctx = canvas.getContext("2d");
 const btn = document.getElementById("btn");
@@ -71,7 +68,7 @@ let confetti = [];
 
 function createConfetti() {
     confetti = [];
-    for (let i = 0; i < 60; i++) {  // menos confeti
+    for (let i = 0; i < 60; i++) {
         confetti.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
@@ -100,3 +97,14 @@ btn.addEventListener("click", () => {
     drawConfetti();
     btn.textContent = "🎉 ¡Disfrútalo! 🎉";
 });
+
+/* ===== AJUSTE EXTRA AUTOMÁTICO ===== */
+function adaptTextForMobile() {
+    if (window.innerWidth <= 480) {
+        message.style.fontSize = "1.6rem";
+        message.style.lineHeight = "1.55";
+    }
+}
+
+adaptTextForMobile();
+window.addEventListener("resize", adaptTextForMobile);
