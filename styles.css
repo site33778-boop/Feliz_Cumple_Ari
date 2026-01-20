@@ -43,7 +43,7 @@ body{
 /* CARTA */
 .letter{
     position:absolute;
-    max-width:600px;
+    max-width:500px;
     width:100%;
     background:black;
     color:white;
