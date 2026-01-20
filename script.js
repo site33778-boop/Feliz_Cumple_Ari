@@ -1,106 +1,79 @@
-/* ========= TITULO CAMBIANTE (Feliz Cumpleaños / Te Amo) ========= */
+/* ===== TITULO CAMBIANTE ===== */
 const title = document.getElementById("titleFade");
 const titles = ["🎉 Feliz Cumpleaños Ari 🎉", "❤️ Te Amo ❤️"];
 let current = 0;
 
-const letterDelay = 120;
-const visibleTime = 2000;
-
 function animateTitle() {
-    const titleText = titles[current];
     title.innerHTML = "";
+    const text = titles[current];
 
-    // Crear spans de cada letra, usando &nbsp; para espacios
-    const spans = [...titleText].map(char => {
+    [...text].forEach((char, i) => {
         const span = document.createElement("span");
-        if (char === " ") {
-            span.innerHTML = "&nbsp;";
-        } else {
-            span.textContent = char;
-        }
+        span.textContent = char === " " ? "\u00A0" : char;
         title.appendChild(span);
-        return span;
+
+        setTimeout(() => span.classList.add("show"), i * 120);
     });
 
-    // Aparecer letra por letra
-    spans.forEach((span, i) => {
-        setTimeout(() => span.classList.add("show"), i * letterDelay);
-    });
-
-    const appearDuration = spans.length * letterDelay;
-
-    // Desaparecer letra por letra
-    setTimeout(() => {
-        spans.forEach((span, i) => {
-            setTimeout(() => {
-                span.classList.remove("show");
-                span.classList.add("hide");
-            }, i * letterDelay);
-        });
-    }, appearDuration + visibleTime);
-
-    const totalDuration =
-        appearDuration +
-        visibleTime +
-        spans.length * letterDelay +
-        600;
-
-    // Cambiar al siguiente título
     setTimeout(() => {
         current = (current + 1) % titles.length;
         animateTitle();
-    }, totalDuration);
+    }, 4200);
 }
 
 animateTitle();
 
-/* ========= MENSAJE PRINCIPAL LETRA POR LETRA ========= */
+/* ===== MENSAJE CON PAUSAS NATURALES ===== */
 const message = document.getElementById("message");
-const messageText = message.getAttribute("data-text");
-message.innerHTML = ""; // limpiar contenido inicial
+const text = message.getAttribute("data-text");
+message.innerHTML = "";
 
-// Crear spans para cada letra
-const messageSpans = [...messageText].map(char => {
-    const span = document.createElement("span");
-    if (char === " ") {
-        span.innerHTML = "&nbsp;";
-    } else if (char === "\n") {
-        span.innerHTML = "<br>";
+let delay = 0;
+
+text.split(" ").forEach(word => {
+    const wordSpan = document.createElement("span");
+    wordSpan.style.display = "inline-block";
+    wordSpan.textContent = word; // palabra completa
+    message.appendChild(wordSpan);
+
+    setTimeout(() => wordSpan.classList.add("show"), delay);
+
+    // Pausa entre palabras
+    const lastChar = word[word.length - 1];
+    if ([".", ",", "!", "?", "✨"].includes(lastChar)) {
+        delay += 500; // pausa más larga después de signos
     } else {
-        span.textContent = char;
+        delay += 150; // espacio normal entre palabras
     }
-    message.appendChild(span);
-    return span;
+
+    // Añadir espacio visual entre palabras
+    const space = document.createTextNode("\u00A0");
+    message.appendChild(space);
 });
 
-// Aparecer letra por letra
-messageSpans.forEach((span, i) => {
-    setTimeout(() => span.classList.add("show"), i * 40);
-});
-
-/* ========= CONFETI ========= */
+/* ===== CONFETI ===== */
 const canvas = document.getElementById("confetti");
 const ctx = canvas.getContext("2d");
 const btn = document.getElementById("btn");
 
-function resizeCanvas() {
+function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+resize();
+window.addEventListener("resize", resize);
 
 let confetti = [];
 
 function createConfetti() {
     confetti = [];
-    for (let i = 0; i < 180; i++) {
+    for (let i = 0; i < 60; i++) {
         confetti.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
             r: Math.random() * 6 + 4,
-            d: Math.random() * 5 + 1,
-            color: `hsl(${Math.random() * 360}, 100%, 50%)`
+            d: Math.random() * 4 + 2,
+            color: `hsl(${Math.random() * 360}, 100%, 60%)`
         });
     }
 }
@@ -112,12 +85,8 @@ function drawConfetti() {
         ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         ctx.fillStyle = c.color;
         ctx.fill();
-
         c.y += c.d;
-        if (c.y > canvas.height) {
-            c.y = -10;
-            c.x = Math.random() * canvas.width;
-        }
+        if (c.y > canvas.height) c.y = -10;
     });
     requestAnimationFrame(drawConfetti);
 }
