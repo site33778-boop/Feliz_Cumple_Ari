@@ -6,12 +6,12 @@
 
 body{
     min-height:100dvh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     background:linear-gradient(135deg,#6a00ff,#b983ff);
     padding:15px;
     overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 /* ===== SOBRE ===== */
@@ -43,43 +43,43 @@ body{
 /* ===== CARTA ===== */
 .letter{
     position:fixed;
-    top:50%;
     left:50%;
-    transform:translate(-50%,-45%) scale(.7);
-    max-width:90vw;
-    width:600px;
+    top:calc(env(safe-area-inset-top) + 40px);
+    transform:translateX(-50%) scale(.7);
+
+    width:90vw;
+    max-width:600px;
+
     background:black;
     color:white;
-    padding:35px 28px 45px;
+    padding:32px 24px 40px;
     border-radius:22px;
     text-align:center;
     display:flex;
     flex-direction:column;
+
     opacity:0;
     transition:.8s ease;
-    box-shadow:0 20px 40px rgba(0,0,0,.4);
 
-    max-height:85dvh;
+    max-height:80dvh;
     overflow-y:auto;
 
-    padding-top:calc(35px + env(safe-area-inset-top));
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
 
 .letter.show{
-    transform:translate(-50%,-45%) scale(1);
+    transform:translateX(-50%) scale(1);
     opacity:1;
 }
 
-.hidden{
-    display:none;
-}
+.hidden{display:none;}
 
 /* ===== TITULO ===== */
 .title{
     color:#ff4b5c;
     font-size:clamp(1.6rem,5vw,2.3rem);
     margin-bottom:18px;
-    min-height:2.5em;
+    min-height:2.6em;
 }
 
 .title span{
@@ -133,16 +133,10 @@ button{
     margin:5px;
     cursor:pointer;
     transition:.3s;
-    font-size:1rem;
 }
 
-button:hover{
-    transform:scale(1.08);
-}
-
-#stopBtn{
-    background:#555;
-}
+button:hover{transform:scale(1.08);}
+#stopBtn{background:#555;}
 
 /* ===== CONFETI ===== */
 canvas{
@@ -165,20 +159,4 @@ canvas{
 @keyframes fadeInMsg{
     from{opacity:0;}
     to{opacity:1;}
-}
-
-/* ===== AJUSTES MOVIL ===== */
-@media(max-width:480px){
-    .letter{
-        width:95vw;
-        padding:28px 18px 40px;
-    }
-
-    .title{
-        font-size:1.8rem;
-    }
-
-    .message{
-        font-size:1.9rem;
-    }
 }
