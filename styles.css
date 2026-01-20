@@ -4,17 +4,17 @@
     box-sizing:border-box;
 }
 
-/* FONDO */
 body{
-    min-height:100vh;
+    min-height:100dvh;
     display:flex;
     justify-content:center;
     align-items:center;
     background:linear-gradient(135deg,#6a00ff,#b983ff);
     padding:15px;
+    overflow:hidden;
 }
 
-/* SOBRE */
+/* ===== SOBRE ===== */
 .envelope{
     width:320px;
     height:210px;
@@ -40,17 +40,17 @@ body{
     opacity:0;
 }
 
-/* CARTA */
+/* ===== CARTA ===== */
 .letter{
     position:fixed;
     top:50%;
     left:50%;
-    transform:translate(-50%,-50%) scale(.7);
+    transform:translate(-50%,-45%) scale(.7);
     max-width:90vw;
     width:600px;
     background:black;
     color:white;
-    padding:35px 28px;
+    padding:35px 28px 45px;
     border-radius:22px;
     text-align:center;
     display:flex;
@@ -58,10 +58,15 @@ body{
     opacity:0;
     transition:.8s ease;
     box-shadow:0 20px 40px rgba(0,0,0,.4);
+
+    max-height:85dvh;
+    overflow-y:auto;
+
+    padding-top:calc(35px + env(safe-area-inset-top));
 }
 
 .letter.show{
-    transform:translate(-50%,-50%) scale(1);
+    transform:translate(-50%,-45%) scale(1);
     opacity:1;
 }
 
@@ -69,40 +74,35 @@ body{
     display:none;
 }
 
-/* TITULO */
+/* ===== TITULO ===== */
 .title{
     color:#ff4b5c;
-    font-size:clamp(1.6rem,5vw,2.2rem);
+    font-size:clamp(1.6rem,5vw,2.3rem);
     margin-bottom:18px;
-    height:3.8em;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    line-height:1.2;
-    width:100%;
+    min-height:2.5em;
 }
 
 .title span{
     opacity:0;
     display:inline-block;
+    transform:translateY(10px);
 }
 
 .title span.show{
-    animation:fadeIn .6s ease forwards;
+    animation:fadeIn .6s ease-out forwards;
 }
 
 .title span.hide{
-    animation:fadeOut .6s ease forwards;
+    animation:fadeOut .6s ease-in forwards;
 }
 
-/* MENSAJE */
+/* ===== MENSAJE ===== */
 .message{
     font-family:'Great Vibes',cursive;
-    font-size:clamp(1.6rem,5vw,2rem);
+    font-size:clamp(1.6rem,5vw,2.2rem);
     line-height:1.7;
     margin-bottom:20px;
-    word-wrap:break-word;
-    overflow-wrap:break-word;
+    word-break:break-word;
 }
 
 .message .word{
@@ -119,7 +119,7 @@ body{
     animation:fadeInMsg .5s ease forwards;
 }
 
-/* BOTONES */
+/* ===== BOTONES ===== */
 .buttons{
     margin-top:auto;
 }
@@ -133,6 +133,7 @@ button{
     margin:5px;
     cursor:pointer;
     transition:.3s;
+    font-size:1rem;
 }
 
 button:hover{
@@ -143,25 +144,41 @@ button:hover{
     background:#555;
 }
 
-/* CONFETI */
+/* ===== CONFETI ===== */
 canvas{
     position:fixed;
     inset:0;
     pointer-events:none;
 }
 
-/* ANIMACIONES */
+/* ===== ANIMACIONES ===== */
 @keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
 }
 
 @keyframes fadeOut{
-    from{opacity:1;}
-    to{opacity:0;}
+    from{opacity:1;transform:translateY(0);}
+    to{opacity:0;transform:translateY(-10px);}
 }
 
 @keyframes fadeInMsg{
     from{opacity:0;}
     to{opacity:1;}
+}
+
+/* ===== AJUSTES MOVIL ===== */
+@media(max-width:480px){
+    .letter{
+        width:95vw;
+        padding:28px 18px 40px;
+    }
+
+    .title{
+        font-size:1.8rem;
+    }
+
+    .message{
+        font-size:1.9rem;
+    }
 }
