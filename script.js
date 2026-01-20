@@ -11,7 +11,6 @@ function animateTitle() {
         const span = document.createElement("span");
         span.textContent = char === " " ? "\u00A0" : char;
         title.appendChild(span);
-
         setTimeout(() => span.classList.add("show"), i * 120);
     });
 
@@ -23,7 +22,7 @@ function animateTitle() {
 
 animateTitle();
 
-/* ===== MENSAJE CON LETRA POR LETRA Y PAUSAS NATURALES ===== */
+/* ===== MENSAJE LETRA POR LETRA CON PAUSAS NATURALES ===== */
 const message = document.getElementById("message");
 const text = message.getAttribute("data-text");
 message.innerHTML = "";
@@ -47,7 +46,7 @@ text.split(" ").forEach(word => {
     message.appendChild(wordSpan);
     message.appendChild(document.createTextNode("\u00A0")); // espacio entre palabras
 
-    // Pausas naturales después de signos
+    // Pausa natural después de signos
     const lastChar = word[word.length - 1];
     if ([".", ",", "!", "?", "✨"].includes(lastChar)) {
         delay += 400; // pausa extra
@@ -72,7 +71,7 @@ let confetti = [];
 
 function createConfetti() {
     confetti = [];
-    for (let i = 0; i < 60; i++) {  // Menos confeti para no saturar
+    for (let i = 0; i < 60; i++) {  // menos confeti
         confetti.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
