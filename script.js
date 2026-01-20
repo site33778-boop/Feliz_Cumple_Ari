@@ -18,11 +18,11 @@ envelope.onclick=()=>{
     },800);
 };
 
-/* ===== TITULO CON 5s DE PAUSA ===== */
-const titles=["🎉 Feliz Cumpleaños Ari🎉","❤️ Te Amo ❤️"];
+/* TITULOS */
+const titles=["🎉 Feliz Cumpleaños Ari 🎉","❤️ Te Amo ❤️"];
 let index=0;
 const speed=80;
-const stayTime=5000; // 5 segundos visibles
+const stayTime=5000;
 
 function startTitle(){
     title.innerHTML="";
@@ -38,8 +38,6 @@ function startTitle(){
     });
 
     const appearTime=text.length*speed;
-
-    // esperar 5 segundos completos
     const hideStart=appearTime + stayTime;
 
     spans.forEach((s,i)=>{
@@ -54,7 +52,7 @@ function startTitle(){
     }, total);
 }
 
-/* ===== MENSAJE ===== */
+/* MENSAJE */
 function startMessage(){
     const text=message.dataset.text;
     message.innerHTML="";
@@ -84,7 +82,7 @@ function startMessage(){
     });
 }
 
-/* ===== CONFETI ===== */
+/* CONFETI */
 const canvas=document.getElementById("confetti");
 const ctx=canvas.getContext("2d");
 const btn=document.getElementById("btn");
