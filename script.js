@@ -128,3 +128,4 @@ function draw(){
 
 btn.onclick=()=>{ vibrate([100,50,100]); create(); draw(); }
 stopBtn.onclick=()=>{ vibrate(60); cancelAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); }
+¨
