@@ -52,15 +52,15 @@ body {
 
 /* SPANS PALABRAS */
 .message span.word {
-    display: inline;              
-    font-family: 'Great Vibes', cursive; /* asegurar herencia de fuente */
+    display: inline;
+    font-family: 'Great Vibes', cursive;
 }
 
 /* SPANS LETRAS */
 .message span.word span {
-    display: inline-block;        
+    display: inline; /* inline para heredar fuente correctamente */
     opacity: 0;
-    font-family: 'Great Vibes', cursive; /* cada letra tiene la fuente */
+    font-family: 'Great Vibes', cursive;
 }
 
 /* ANIMACION LETRAS */
