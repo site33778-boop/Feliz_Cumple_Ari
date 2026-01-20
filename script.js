@@ -1,110 +1,130 @@
-const title = document.getElementById("titleFade");
-const titles = ["🎉 Feliz Cumpleaños Ari 🎉", "❤️ Te Amo ❤️"];
-let current = 0;
+const envelope=document.getElementById("envelope");
+const letter=document.getElementById("letter");
+const title=document.getElementById("title");
+const message=document.getElementById("message");
 
-function animateTitle() {
-    title.innerHTML = "";
-    const text = titles[current];
+function vibrate(p){ if(navigator.vibrate) navigator.vibrate(p); }
 
-    [...text].forEach((char, i) => {
-        const span = document.createElement("span");
-        span.textContent = char === " " ? "\u00A0" : char;
+envelope.onclick=()=>{
+    vibrate([80,40,80]);
+    envelope.classList.add("open");
+
+    setTimeout(()=>{
+        envelope.style.display="none";
+        letter.classList.remove("hidden");
+        letter.classList.add("show");
+        startTitle();
+        startMessage();
+    },800);
+};
+
+/* ===== TITULO CON 5s DE PAUSA ===== */
+const titles=["🎉 Feliz Cumpleaños Ari🎉","❤️ Te Amo ❤️"];
+let index=0;
+const speed=80;
+const stayTime=5000; // 5 segundos visibles
+
+function startTitle(){
+    title.innerHTML="";
+    const text=titles[index];
+    const spans=[];
+
+    [...text].forEach((c,i)=>{
+        const span=document.createElement("span");
+        span.textContent=c===" "?"\u00A0":c;
         title.appendChild(span);
-        setTimeout(() => span.classList.add("show"), i * 120);
+        spans.push(span);
+        setTimeout(()=>span.classList.add("show"),i*speed);
     });
 
-    setTimeout(() => {
-        current = (current + 1) % titles.length;
-        animateTitle();
-    }, 4200);
-}
+    const appearTime=text.length*speed;
 
-animateTitle();
+    // esperar 5 segundos completos
+    const hideStart=appearTime + stayTime;
+
+    spans.forEach((s,i)=>{
+        setTimeout(()=>s.classList.add("hide"),hideStart + i*speed);
+    });
+
+    const total=hideStart + text.length*speed;
+
+    setTimeout(()=>{
+        index=(index+1)%titles.length;
+        startTitle();
+    }, total);
+}
 
 /* ===== MENSAJE ===== */
-const message = document.getElementById("message");
-const text = message.getAttribute("data-text");
-message.innerHTML = "";
+function startMessage(){
+    const text=message.dataset.text;
+    message.innerHTML="";
+    let delay=0;
 
-let delay = 0;
+    text.split(" ").forEach(word=>{
+        const wordSpan=document.createElement("span");
+        wordSpan.classList.add("word");
 
-text.split(" ").forEach(word => {
-    const wordSpan = document.createElement("span");
-    wordSpan.classList.add("word");
+        [...word].forEach(char=>{
+            const span=document.createElement("span");
+            span.textContent=char;
+            span.classList.add("letterSpan");
+            wordSpan.appendChild(span);
 
-    [...word].forEach(char => {
-        const letter = document.createElement("span");
-        letter.textContent = char;
-        wordSpan.appendChild(letter);
+            setTimeout(()=>{
+                span.classList.add("show");
+                vibrate(6);
+            },delay);
 
-        setTimeout(() => letter.classList.add("show"), delay);
-        delay += 40;
+            delay+=40;
+        });
+
+        message.appendChild(wordSpan);
+        message.appendChild(document.createTextNode(" "));
+        delay+=40;
     });
-
-    message.appendChild(wordSpan);
-    message.appendChild(document.createTextNode("\u00A0"));
-
-    const lastChar = word[word.length - 1];
-    if ([".", ",", "!", "?", "✨"].includes(lastChar)) {
-        delay += 400;
-    } else {
-        delay += 40;
-    }
-});
+}
 
 /* ===== CONFETI ===== */
-const canvas = document.getElementById("confetti");
-const ctx = canvas.getContext("2d");
-const btn = document.getElementById("btn");
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+const btn=document.getElementById("btn");
+const stopBtn=document.getElementById("stopBtn");
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function resize(){
+    canvas.width=innerWidth;
+    canvas.height=innerHeight;
 }
 resize();
-window.addEventListener("resize", resize);
+addEventListener("resize",resize);
 
-let confetti = [];
+let confetti=[];
+let anim=null;
 
-function createConfetti() {
-    confetti = [];
-    for (let i = 0; i < 60; i++) {
+function create(){
+    confetti=[];
+    for(let i=0;i<60;i++){
         confetti.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            r: Math.random() * 6 + 4,
-            d: Math.random() * 4 + 2,
-            color: `hsl(${Math.random() * 360}, 100%, 60%)`
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height-canvas.height,
+            r:Math.random()*6+3,
+            d:Math.random()*4+2,
+            c:`hsl(${Math.random()*360},100%,60%)`
         });
     }
 }
 
-function drawConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    confetti.forEach(c => {
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(p=>{
         ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        ctx.fillStyle = c.color;
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.c;
         ctx.fill();
-        c.y += c.d;
-        if (c.y > canvas.height) c.y = -10;
+        p.y+=p.d;
+        if(p.y>canvas.height)p.y=-10;
     });
-    requestAnimationFrame(drawConfetti);
+    anim=requestAnimationFrame(draw);
 }
 
-btn.addEventListener("click", () => {
-    createConfetti();
-    drawConfetti();
-    btn.textContent = "🎉 ¡Disfrútalo! 🎉";
-});
-
-/* ===== AJUSTE EXTRA AUTOMÁTICO ===== */
-function adaptTextForMobile() {
-    if (window.innerWidth <= 480) {
-        message.style.fontSize = "1.6rem";
-        message.style.lineHeight = "1.55";
-    }
-}
-
-adaptTextForMobile();
-window.addEventListener("resize", adaptTextForMobile);
+btn.onclick=()=>{ vibrate([100,50,100]); create(); draw(); }
+stopBtn.onclick=()=>{ vibrate(60); cancelAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); }

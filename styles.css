@@ -1,142 +1,165 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #6a00ffb3, #8f5dc5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow-x: hidden;
+/* FONDO */
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#6a00ff,#b983ff);
+    padding:15px;
 }
 
-.card {
-    background: black;
-    width: 100%;
-    max-width: 820px;
-    padding: 70px 60px;
-    border-radius: 30px;
-    text-align: center;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    animation: float 4s ease-in-out infinite;
+/* SOBRE */
+.envelope{
+    width:320px;
+    height:210px;
+    background:#c0392b;
+    border-radius:10px;
+    position:relative;
+    cursor:pointer;
+    perspective:1000px;
 }
 
-.title {
-    color: #ff4b5c;
-    margin-bottom: 35px;
-    font-size: clamp(1.8rem, 5vw, 2.6rem);
-    min-height: 1.6em;
+.flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#e74c3c;
+    clip-path:polygon(0 0,100% 0,50% 60%);
+    transform-origin:top;
+    transition:.9s ease;
 }
 
-.message {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.8;
-    color: white;
-    margin-bottom: 50px;
-    min-height: 300px;
-
-    word-break: normal;
-    overflow-wrap: normal;
-    white-space: normal;
-    text-align: justify;
+.envelope.open .flap{
+    transform:rotateX(180deg);
+    opacity:0;
 }
 
-/* Palabras completas */
-.message span.word {
-    display: inline-block;
-    white-space: nowrap;
-    font-family: 'Great Vibes', cursive;
+/* CARTA */
+.letter{
+    position:absolute;
+    max-width:600px;
+    width:100%;
+    background:black;
+    color:white;
+    padding:35px 40px;
+    border-radius:22px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    transform:scale(.7);
+    opacity:0;
+    transition:.8s ease;
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
 
-/* Letras */
-.message span.word span {
-    display: inline;
-    opacity: 0;
-    font-family: 'Great Vibes', cursive;
+.letter.show{
+    transform:scale(1);
+    opacity:1;
 }
 
-.message span.word span.show {
-    animation: fadeIn 0.6s forwards;
+.hidden{display:none;}
+
+/* TITULO */
+.title{
+    color:#ff4b5c;
+    font-size:clamp(1.6rem,5vw,2rem);
+    margin-bottom:15px;
 }
 
-/* Titulo animado */
-.title span {
-    opacity: 0;
-    display: inline-block;
+.title span{
+    opacity:0;
+    display:inline-block;
+    transform:translateY(10px);
 }
 
-.title span.show {
-    animation: fadeIn 0.6s forwards;
+.title span.show{
+    animation:fadeIn .6s ease-out forwards;
 }
 
-/* Botón */
-button {
-    background: #ff4b5c;
-    color: white;
-    border: none;
-    padding: 18px 40px;
-    border-radius: 40px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
+.title span.hide{
+    animation:fadeOut .6s ease-in forwards;
 }
 
-button:hover {
-    background: #ff1e38;
-    transform: scale(1.08);
+/* MENSAJE */
+.message{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(1.6rem,5vw,2rem);
+    line-height:1.7;
+    margin-bottom:20px;
+    word-wrap:break-word;
 }
 
-/* Animaciones */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+.message .word{
+    display:inline-block;
+    white-space:nowrap;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.message .letterSpan{
+    opacity:0;
+    display:inline-block;
 }
 
-/* Confeti */
-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+.message .letterSpan.show{
+    animation:fadeInMsg .5s ease forwards;
 }
 
-/* ===== ADAPTACIÓN MÓVIL ===== */
-@media (max-width: 768px) {
-    .message {
-        font-size: clamp(1.5rem, 5vw, 2.2rem);
-        line-height: 1.6;
-        min-height: 220px;
-    }
-
-    .title {
-        font-size: clamp(1.6rem, 6vw, 2.2rem);
-    }
+/* BOTONES */
+.buttons{
+    margin-top:auto;
 }
 
-@media (max-width: 480px) {
-    .card {
-        padding: 40px 25px;
-    }
+button{
+    background:#ff4b5c;
+    border:none;
+    color:white;
+    padding:10px 22px;
+    border-radius:25px;
+    margin:5px;
+    cursor:pointer;
+    transition:.3s;
+}
 
-    .message {
-        font-size: 1.6rem;
-        line-height: 1.55;
-        text-align: left;
-    }
+button:hover{
+    transform:scale(1.08);
+}
 
-    button {
-        width: 100%;
-        padding: 16px;
-        font-size: 1.1rem;
+#stopBtn{
+    background:#555;
+}
+
+/* CONFETI */
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+/* ANIMACIONES */
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeOut{
+    from{opacity:1;transform:translateY(0);}
+    to{opacity:0;transform:translateY(-10px);}
+}
+
+@keyframes fadeInMsg{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* MOBILE */
+@media (max-width: 600px){
+    .letter{
+        max-width:100%;
+        padding:28px 24px;
     }
 }
