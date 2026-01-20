@@ -23,7 +23,7 @@ function animateTitle() {
 
 animateTitle();
 
-/* ===== MENSAJE CON PAUSAS NATURALES ===== */
+/* ===== MENSAJE CON LETRA POR LETRA Y PAUSAS NATURALES ===== */
 const message = document.getElementById("message");
 const text = message.getAttribute("data-text");
 message.innerHTML = "";
@@ -32,26 +32,31 @@ let delay = 0;
 
 text.split(" ").forEach(word => {
     const wordSpan = document.createElement("span");
-    wordSpan.style.display = "inline-block";
-    wordSpan.textContent = word; // palabra completa
+    wordSpan.classList.add("word");
+    
+    // Crear span por letra dentro de la palabra
+    [...word].forEach(char => {
+        const letter = document.createElement("span");
+        letter.textContent = char;
+        wordSpan.appendChild(letter);
+
+        setTimeout(() => letter.classList.add("show"), delay);
+        delay += 40; // velocidad por letra
+    });
+
     message.appendChild(wordSpan);
+    message.appendChild(document.createTextNode("\u00A0")); // espacio entre palabras
 
-    setTimeout(() => wordSpan.classList.add("show"), delay);
-
-    // Pausa entre palabras
+    // Pausas naturales después de signos
     const lastChar = word[word.length - 1];
     if ([".", ",", "!", "?", "✨"].includes(lastChar)) {
-        delay += 500; // pausa más larga después de signos
+        delay += 400; // pausa extra
     } else {
-        delay += 150; // espacio normal entre palabras
+        delay += 40;  // espacio normal
     }
-
-    // Añadir espacio visual entre palabras
-    const space = document.createTextNode("\u00A0");
-    message.appendChild(space);
 });
 
-/* ===== CONFETI ===== */
+/* ===== CONFETI REDUCIDO ===== */
 const canvas = document.getElementById("confetti");
 const ctx = canvas.getContext("2d");
 const btn = document.getElementById("btn");
@@ -67,7 +72,7 @@ let confetti = [];
 
 function createConfetti() {
     confetti = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {  // Menos confeti para no saturar
         confetti.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,

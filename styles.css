@@ -45,26 +45,33 @@ body {
     color: white;
     margin-bottom: 50px;
     min-height: 300px;
-
+    word-break: break-word;       /* Permite que las palabras se ajusten en móvil */
     white-space: normal;
-    word-break: normal;
-    overflow-wrap: normal;
+    overflow-wrap: break-word;
 }
 
-/* SPANS */
-.title span,
-.message span {
+/* SPANS PALABRAS */
+.message span.word {
+    display: inline;              /* Cada palabra puede romperse en varias líneas */
+}
+
+/* SPANS LETRAS */
+.message span.word span {
+    display: inline-block;        /* Animación por letra */
+    opacity: 0;
+}
+
+/* ANIMACION LETRAS */
+.message span.word span.show {
+    animation: fadeIn 0.6s forwards;
+}
+
+.title span {
     opacity: 0;
     display: inline-block;
 }
 
-.message span {
-    font-family: 'Great Vibes', cursive;
-}
-
-/* ANIMACIÓN */
-.title span.show,
-.message span.show {
+.title span.show {
     animation: fadeIn 0.6s forwards;
 }
 
